@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Copiar Texto no Mobile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    #textoParaCopiar {
+      padding: 15px;
+      font-size: 18px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      word-break: break-word;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 12px 24px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .mensagem {
+      margin-top: 10px;
+      color: green;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="textoParaCopiar">00020101021226850014br.gov.bcb.pix2563pix.santander.com.br/qr/v2/5fdd5ee8-f719-4b5b-8e1c-1584d1f63ef05204000053039865406172.485802BR5906SHOPEE6009SAO PAULO62070503***630483C9</div>
+    <button onclick="copiarTexto()">Copiar Texto</button>
+    <div id="mensagem" class="mensagem"></div>
+  </div>
+
+  <script>
+    function copiarTexto() {
+      const texto = document.getElementById("textoParaCopiar").innerText;
+      const mensagem = document.getElementById("mensagem");
+
+      // Usa a API moderna de clipboard (melhor para mobile)
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(texto).then(() => {
+          mensagem.innerText = "Texto copiado com sucesso!";
+        }).catch(err => {
+          mensagem.innerText = "Erro ao copiar o texto.";
+          console.error(err);
+        });
+      } else {
+        // Fallback para navegadores antigos
+        const tempInput = document.createElement("textarea");
+        tempInput.value = texto;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        mensagem.innerText = "Texto copiado!";
+      }
+    }
+  </script>
+
+</body>
+</html>
